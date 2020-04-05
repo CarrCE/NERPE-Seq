@@ -39,7 +39,10 @@ function filter_nerpe_fasta(in,out,varargin)
         % Filter the file
         N = numel(H); b = false(N,1);
         for k=1:N
-            idx = regexp(rna2dna(T{k}),q_regexp);
+            % Version 1.0
+            % idx = regexp(rna2dna(T{k}),q_regexp);
+            % Version 1.1 modified to filter in RNA space
+            idx = regexp(T{k},q_regexp);
             if ~isempty(idx)
                 % Found defined sequence at position 1
                 b(k)=(idx==1);
