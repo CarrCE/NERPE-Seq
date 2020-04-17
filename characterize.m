@@ -585,10 +585,12 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
             % Look at mismatches in position k
             T_k = cellfun(@(x)(x(k)),T_MMSet)';
             P_k = cellfun(@(x)(x(k)),P_MMSet)';
-            Pair = cellstr([T_k P_k]);
-            for j=1:numel(rows)
-                rc_j = sum(cellfun(@(x)(strcmp(x,rows{j})),Pair));
-                MMSeqSpace(j,k)=rc_j;
+            if bitand(~isempty(T_k),~isempty(P_k))
+                Pair = cellstr([T_k P_k]);
+                for j=1:numel(rows)
+                    rc_j = sum(cellfun(@(x)(strcmp(x,rows{j})),Pair));
+                    MMSeqSpace(j,k)=rc_j;
+                end
             end
         end
         % Add to summary
