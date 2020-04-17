@@ -9,3 +9,5 @@ Daniel Duzdevich*, Christopher E. Carr* and Jack W. Szostak. Deep sequencing of 
 Version 1.0 Initial Release
 
 Version 1.1 Updated filter_nerpe_fastq to filter in RNA space
+
+Version 1.2 Updated characterize.m to handle case of no mismatches present
