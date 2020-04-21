@@ -25,6 +25,7 @@
 % 'matfile'         fullfile(OUT,'PreProcessed.mat')   preprocessing MAT
 % 'fasta'           fullfile(OUT,'PreProcessed.fasta') preprocessing fasta
 % 'save_matfile'    fullfile(OUT,'Characterized.mat')  characterize results
+% 'plots'           fullfile(OUT,'plots')              folder for plots
 % 'control'                                            see below
 % 'normalization_factor'                               see below
 %
@@ -76,6 +77,7 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
     options = fieldcheck(options,'matfile', fullfile(out,'PreProcessed.mat'), useroptions);
     options = fieldcheck(options,'fasta', fullfile(out,'PreProcessed.fasta'), useroptions);
     options = fieldcheck(options,'save_matfile', fullfile(out,'Characterized.mat'), useroptions);
+    options = fieldcheck(options,'plots',fullfile(out,'plots'), useroptions);
     options = fieldcheck(options,'control','', useroptions);
     options = fieldcheck(options,'internal_normalization',0, useroptions);
     
@@ -715,10 +717,10 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
         logmatrix(fid_log,summary.ProductMismatchSetMismatchSequenceSpaceFrequenciesNormalized,'Product Mismatch Set Mismatch Sequence Space Frequencies Normalized',{'Position' 'AA' 'AC' 'AG' 'CA' 'CC' 'CU' 'GA' 'GG' 'GU' 'UC' 'UG' 'UU'},1:(n_cols),'%.5g');
         
         % C.7.1 Generate sequence space cube (trimer) plots and data
-        seqspace_cube(P,T,fullfile(out,'plots'),'logfile',fid_log);
+        seqspace_cube(P,T,options.plots,'logfile',fid_log);
         
         % C.7.2 Generate sequence space cube (trimer) plots and data
-        seqspace_cube(P_CompSet,T_CompSet,fullfile(out,'plots'),'logfile',fid_log,...
+        seqspace_cube(P_CompSet,T_CompSet,options.plots,'logfile',fid_log,...
             'product_label','product_CompSet','template_label','template_CompSet');
         
         % C.8 Transition Probabilities. Calculate the position-dependent 
@@ -731,7 +733,7 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
         % This is done in the helper function transition_map(). Counts and 
         % then frequencies are separately computed and visualized for the 
         % product (with and without nulls) and template.
-        transition_map(P,T,fullfile(out,'plots'),'logfile',fid_log);
+        transition_map(P,T,options.plots,'logfile',fid_log);
         
         % Close the log file
         fclose(fid_log);
