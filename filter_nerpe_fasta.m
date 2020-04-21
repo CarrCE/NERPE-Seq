@@ -35,7 +35,7 @@ function filter_nerpe_fasta(in,out,varargin)
         % Open the file
         [H,P,T]=read_nerpe_fasta(in,4E5);
         % Convert query sequence to regular expression
-        q_regexp = seq2regexp(options.defined,'Ambiguous',false);
+        q_regexp = dna2rna(seq2regexp(options.defined,'Ambiguous',false));
         % Filter the file
         N = numel(H); b = false(N,1);
         for k=1:N
