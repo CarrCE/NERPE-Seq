@@ -26,6 +26,7 @@
 % 'fasta'           fullfile(OUT,'PreProcessed.fasta') preprocessing fasta
 % 'save_matfile'    fullfile(OUT,'Characterized.mat')  characterize results
 % 'plots'           fullfile(OUT,'plots')              folder for plots
+% 'extra'           fullfile(OUT,'extra')              folder for extra files
 % 'control'                                            see below
 % 'normalization_factor'                               see below
 %
@@ -78,6 +79,7 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
     options = fieldcheck(options,'fasta', fullfile(out,'PreProcessed.fasta'), useroptions);
     options = fieldcheck(options,'save_matfile', fullfile(out,'Characterized.mat'), useroptions);
     options = fieldcheck(options,'plots',fullfile(out,'plots'), useroptions);
+    options = fieldcheck(options,'extra',fullfile(out,'extra'), useroptions);
     options = fieldcheck(options,'control','', useroptions);
     options = fieldcheck(options,'internal_normalization',0, useroptions);
     
@@ -614,6 +616,16 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
         MMSeqSpace_Freq_Normalized = MMSeqSpace_Normalized./repmat(sum(MMSeqSpace_Normalized,1),[12 1]);      
         % Save to summary
         summary.ProductMismatchSetMismatchSequenceSpaceFrequenciesNormalized = MMSeqSpace_Freq_Normalized;
+        
+        %% Context of a mismatch
+        
+        % Determine base 0 (p-1 base when position is p)
+        base0_product = preprocessing_options.fix1(end);
+        
+        % get each mismatch with context (mwc) and save to file
+        if ~exist(options.extra,'dir'), mkdir(options.extra); end
+        mwc_saveas = fullfile(options.extra,'MismatchContext.xlsx');
+        mwc = mismatch_context(P_MMSet,T_MMSet,base0_product,mwc_saveas);
         
         %% Save results back to matfile
         save(options.save_matfile,'summary','options','preprocessing_options');        
