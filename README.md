@@ -3,7 +3,7 @@ Non-Enzymatic RNA Primer Extension (NERPE) Deep Sequencing
 
 MATLAB code for planned submission of the manuscript:
 
-Daniel Duzdevich*, Christopher E. Carr* and Jack W. Szostak. Deep sequencing of nonenzymatic RNA primer extension. In preparation. *Joint authors.
+Daniel Duzdevich*, Christopher E. Carr* and Jack W. Szostak. Deep sequencing of nonenzymatic RNA primer extension. Nucleic Acids Research (NAR-00536-2020, accepted). Preprint: bioRxiv 10.1101/2020.02.18.955120 *Joint authors. Code: https://github.com/CarrCE/NERPE-Seq 
 
 ## Release notes
 Version 1.0 Initial Release
