@@ -78,7 +78,12 @@ function [M] = mismatch_context(P,T,base0,saveas)
     end
 
     % determine number of positions N
-    N = numel(T{1})-1;
+    % determine number of positions N
+    if ~isempty(T)
+        N = numel(T{1})-1;
+    else
+        N = 0;
+    end
     % number of product and template pairs
     N_MM_set = numel(P);
     mismatch_types = {'AA' 'AC' 'AG' 'CA' 'CC' 'CU' 'GA' 'GG' 'GU' 'UC' 'UG' 'UU'};
