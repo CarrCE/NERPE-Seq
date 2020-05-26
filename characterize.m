@@ -747,6 +747,11 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
         % product (with and without nulls) and template.
         transition_map(P,T,options.plots,'logfile',fid_log);
         
+        % Transition map with complementary set only
+        transition_map(P_CompSet,T_CompSet,options.plots,'logfile',fid_log,...
+            'description','Transition Map (Complementary Set)',...
+            'filenamebase','transition_map_CompSet');
+        
         % Close the log file
         fclose(fid_log);
     end    
