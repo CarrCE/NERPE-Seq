@@ -13,6 +13,8 @@ function transition_map(P,T,outfolder,varargin)
     options = fieldcheck(options,'fontsize', 12, useroptions);
     options = fieldcheck(options,'figformat', {'eps' '-depsc'}, useroptions);
     options = fieldcheck(options,'fontname', 'Helvetica', useroptions);
+    options = fieldcheck(options,'filenamebase','transition_map',useroptions);
+    options = fieldcheck(options,'description','Transition Map',useroptions);
     options = fieldcheck(options,'logfile', '', useroptions);
     
     % make output folder if necessary
@@ -73,7 +75,7 @@ function transition_map(P,T,outfolder,varargin)
     title('Template Transition Frequencies');
 
     % Save figure
-    fn = 'transition_map_template';
+    fn = [options.filenamebase '_template'];
     print(fullfile(outfolder,[fn '.' options.figformat{1}]),options.figformat{2});
     savefig(fullfile(outfolder,[fn '.fig']));
 
@@ -95,25 +97,26 @@ function transition_map(P,T,outfolder,varargin)
     title('Product Transition Frequencies');
 
     % Save figure
-    fn = 'transition_map_product';
+    fn = [options.filenamebase '_product'];
     print(fullfile(outfolder,[fn '.' options.figformat{1}]),options.figformat{2});
     savefig(fullfile(outfolder,[fn '.fig']));
 
     % Reoriented version
     % Without nulls
+    idx=(find(~strcmpi(xtl,'-')));
     figure('color',[1 1 1]);
     set(gcf, 'Renderer', 'Painters');
-    imagesc(F_P(2:end,:)');
+    imagesc(F_P(2:end,idx)');
     colormap(cmap);
-    set(gca,'ytick',1:30,'yticklabel',xtl);
+    set(gca,'ytick',1:sum(idx),'yticklabel',xtl(idx));
     set(gca,'xtick',1:4,'xticklabel',ytl(2:5));
     colorbar;
     ylabel('Current Base');
     xlabel('Next Base');
     title('Product Transition Frequencies (no nulls)');
 
-    % Save figure
-    fn = 'transition_map_product_no_nulls';
+    % Save figure    
+    fn = [options.filenamebase '_product_no_nulls'];
     print(fullfile(outfolder,[fn '.' options.figformat{1}]),options.figformat{2});
     savefig(fullfile(outfolder,[fn '.fig']));
 
@@ -121,7 +124,7 @@ function transition_map(P,T,outfolder,varargin)
     if ~isnan(fid)
         % Have valid file handle
         % Print data to the file
-        fprintf(fid,'Transition Map:\n');
+        fprintf(fid,sprintf('%s:\n',options.description));
         logmatrix(fid,C_P','Product Transition Counts',{'Current Base (Row)/Next Base (Col)' '1-','1A','1C','1G','1U','2-','2A','2C','2G','2U','3-','3A','3C','3G','3U','4-','4A','4C','4G','4U','5-','5A','5C','5G','5U','6-','6A','6C','6G','6U'},{'-' 'A' 'C' 'G' 'U'},'%d');
         fprintf(fid,'\n');
         logmatrix(fid,F_P','Product Transition Frequencies',{'Current Base (Row)/Next Base (Col)','1-','1A','1C','1G','1U','2-','2A','2C','2G','2U','3-','3A','3C','3G','3U','4-','4A','4C','4G','4U','5-','5A','5C','5G','5U','6-','6A','6C','6G','6U'},{'-' 'A' 'C' 'G' 'U'},'%0.4f');
@@ -131,5 +134,4 @@ function transition_map(P,T,outfolder,varargin)
         logmatrix(fid,F_T','Template Transition Frequencies',{'Current Base (Row)/Next Base (Col)','1A','1C','1G','1U','2A','2C','2G','2U','3A','3C','3G','3U','4A','4C','4G','4U','5A','5C','5G','5U','6A','6C','6G','6U'},{'A' 'C' 'G' 'U'},'%0.4f');
         fprintf(fid,'\n');
     end
-
 end
