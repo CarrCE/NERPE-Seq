@@ -11,7 +11,7 @@ function seqspace_cube(P,T,outfolder,varargin)
     % Set all options to defaults or user specified options
     options = []; % initial empty options
     options = fieldcheck(options,'fontsize', 12, useroptions);
-    options = fieldcheck(options,'figformat', {'eps' '-depsc -painters'}, useroptions);
+    options = fieldcheck(options,'figformat', {'eps' '-depsc' '-painters'}, useroptions);
     options = fieldcheck(options,'fontname', 'Helvetica', useroptions);
     options = fieldcheck(options,'logfile', '', useroptions);
     options = fieldcheck(options,'product_label','product',useroptions);
@@ -95,7 +95,7 @@ function seqspace_cube(P,T,outfolder,varargin)
         set(gca,'CameraPosition',[-1.61 -22.6 7.9]);
         
         fn = sprintf('seqspace_cube_%s_k%d',options.product_label,k);
-        print(fullfile(outfolder,[fn '.' options.figformat{1}]),options.figformat{2});
+        print(options.figformat{3},fullfile(outfolder,[fn '.' options.figformat{1}]),options.figformat{2});
         savefig(fullfile(outfolder,[fn '.fig']));
         
         % If appropriate, log to file
@@ -163,7 +163,7 @@ function seqspace_cube(P,T,outfolder,varargin)
         set(gca,'CameraPosition',[-1.61 -22.6 7.9]);
 
         fn = sprintf('seqspace_cube_%s_k%d',options.template_label,k);
-        print(fullfile(outfolder,[fn '.' options.figformat{1}]),options.figformat{2});
+        print(options.figformat{3},fullfile(outfolder,[fn '.' options.figformat{1}]),options.figformat{2});
         savefig(fullfile(outfolder,[fn '.fig']));
         
         % If appropriate, log to file
