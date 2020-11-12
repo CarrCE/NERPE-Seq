@@ -11,7 +11,7 @@ function seqspace_cube(P,T,outfolder,varargin)
     % Set all options to defaults or user specified options
     options = []; % initial empty options
     options = fieldcheck(options,'fontsize', 12, useroptions);
-    options = fieldcheck(options,'figformat', {'eps' '-depsc'}, useroptions);
+    options = fieldcheck(options,'figformat', {'eps' '-depsc -painters'}, useroptions);
     options = fieldcheck(options,'fontname', 'Helvetica', useroptions);
     options = fieldcheck(options,'logfile', '', useroptions);
     options = fieldcheck(options,'product_label','product',useroptions);
