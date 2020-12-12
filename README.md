@@ -17,3 +17,5 @@ Version 1.3 Updated filter_nerpe_fastq and related code to correct error introdu
 Version 1.4 Added mismatch_context.m and updated characterize.m to handle generating file of context for all mismatches.
 
 Version 1.5 Updated characterize.m to also generate transition map of complementary set in addition to all products/templates; updated transition_map.m to improve transition map figure with nulls removed.
+
+Version 1.6 Updated seqspace_cube.m to use rendering for non-pixelated output.
