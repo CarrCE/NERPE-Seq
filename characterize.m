@@ -222,9 +222,9 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
         bMMSet = logical(size(P));
         bUnSet = logical(size(P));
         % parallel execution
-        parfor k=1:max(size(P))
+        %parfor k=1:max(size(P))
         % serial execution
-        %for k=1:max(size(P))
+        for k=1:max(size(P))
             P_k = strrep(P{k},'-','');
             n_k = numel(P_k);
             if n_k==0
@@ -255,6 +255,11 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
         T_CompSet = T(bCompSet);
         T_MMSet = T(bMMSet);
         T_UnSet = T(bUnSet);
+        
+        % Store binary vectors of comp set, mm set, unset
+        summary.bCompSet = bCompSet;
+        summary.bMMSet = bMMSet;
+        summary.bUnSet = bUnSet;
        
         % C.3.2 Count the number of blocks (alignments) in each set
         N_P_CompSet = sum(bCompSet);
@@ -440,10 +445,12 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
             T_k = T_k(bProduct);
             T_kp1 = T_kp1(bProduct);
             % Sum up number of each type of dimer
-            Pair = cellstr([T_k T_kp1]);
-            for j=1:numel(dimers)
-                rc_j = sum(cellfun(@(x)(strcmp(x,dimers{j})),Pair));
-                TDSeqSpace(j,k)=rc_j;
+            if and(~isempty(T_k),~isempty(T_kp1))
+                Pair = cellstr([T_k T_kp1]);
+                for j=1:numel(dimers)
+                    rc_j = sum(cellfun(@(x)(strcmp(x,dimers{j})),Pair));
+                    TDSeqSpace(j,k)=rc_j;
+                end
             end
         end
         % 
@@ -732,9 +739,10 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
         seqspace_cube(P,T,options.plots,'logfile',fid_log);
         
         % C.7.2 Generate sequence space cube (trimer) plots and data
-        seqspace_cube(P_CompSet,T_CompSet,options.plots,'logfile',fid_log,...
-            'product_label','product_CompSet','template_label','template_CompSet');
-        
+        if and(~isempty(P_CompSet),~isempty(T_CompSet))
+            seqspace_cube(P_CompSet,T_CompSet,options.plots,'logfile',fid_log,...
+                'product_label','product_CompSet','template_label','template_CompSet');
+        end
         % C.8 Transition Probabilities. Calculate the position-dependent 
         % base transition probabilities at each position. Generate 
         % transition map plots. At any given position, the next base can 
@@ -748,9 +756,11 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
         transition_map(P,T,options.plots,'logfile',fid_log);
         
         % Transition map with complementary set only
-        transition_map(P_CompSet,T_CompSet,options.plots,'logfile',fid_log,...
-            'description','Transition Map (Complementary Set)',...
-            'filenamebase','transition_map_CompSet');
+        if and(~isempty(P_CompSet),~isempty(T_CompSet))
+            transition_map(P_CompSet,T_CompSet,options.plots,'logfile',fid_log,...
+                'description','Transition Map (Complementary Set)',...
+                'filenamebase','transition_map_CompSet');
+        end
         
         % Close the log file
         fclose(fid_log);
