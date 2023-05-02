@@ -97,6 +97,7 @@ function seqspace_cube(P,T,outfolder,varargin)
         fn = sprintf('seqspace_cube_%s_k%d',options.product_label,k);
         print(options.figformat{3},fullfile(outfolder,[fn '.' options.figformat{1}]),options.figformat{2});
         savefig(fullfile(outfolder,[fn '.fig']));
+        close(gcf);
         
         % If appropriate, log to file
         if ~isnan(fid)
@@ -165,6 +166,7 @@ function seqspace_cube(P,T,outfolder,varargin)
         fn = sprintf('seqspace_cube_%s_k%d',options.template_label,k);
         print(options.figformat{3},fullfile(outfolder,[fn '.' options.figformat{1}]),options.figformat{2});
         savefig(fullfile(outfolder,[fn '.fig']));
+        close(gcf);
         
         % If appropriate, log to file
         if ~isnan(fid)
@@ -185,6 +187,6 @@ function seqspace_cube(P,T,outfolder,varargin)
             end
             fprintf(fid,'\n');
         end
-        
+
     end
 end
