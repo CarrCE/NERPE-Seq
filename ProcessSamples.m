@@ -64,18 +64,40 @@
 % Base frequencies are normalized by this template normalization factor to 
 % correct for these biases.
 % 
-% Christopher E. Carr (chrisc@mit.edu)
+% Christopher E. Carr (cecarr@gatech.edu)
 % 
 function ProcessSamples(xls)
-    [~,~,raw]=xlsread(xls);
-    N = size(raw,1)-1;
+    t = readtable(xls);
+    N = size(t,1);
+    cols = t.Properties.VariableNames;
+    
+    % required fields list
+    required = {'fq1' 'fq2' 'index' 'out' 'template_length' 'prefix' 'control' 'normalization_factor'}
+    % ensure all required values are assigned
+    for r=1:numel(required)
+        % Check for required field
+        assert(sum(strcmpi(cols,required{r})),sprintf('Missing required input ''%s'' not found. See function description.',required{r}));
+        % If found, remove from optional argument list
+        cols(strcmpi(cols,required{r}))=[];
+    end
+    
     for k=1:N
         % Processing sample k of N
         fprintf('Processing sample %d of %d\n',k,N);
-        % Get inputs
-        fq1 = raw{k+1,1}; fq2 = raw{k+1,2}; index = raw{k+1,3}; out = raw{k+1,4}; 
-        template_length = raw{k+1,5}; prefix = raw{k+1,6}; control = raw{k+1,7};
-        normalization_factor = raw{k+1,8};
+        % Get required inputs
+        fq1 = t.('fq1'){k};
+        fq2 = t.('fq2'){k};
+        index = t.('index'){k};
+        out = t.('out'){k};
+        template_length = t.('template_length')(k);
+        prefix = t.('prefix'){k};
+        control = t.('control'){k};
+        normalization_factor = t.('normalization_factor'){k};
+        
+        % Remaining optional parameters are assumed to apply to preprocessing
+        % Get any optional inputs to preprocessing (e.g., fix2, fix3)
+        op_args = reshape([cols; cellfun(@(x)(t.(x){k}),cols,'UniformOutput',false)],1,numel(cols)*2);
+        
         % Display details
         fprintf('Forward Read File %s\n',fq1);
         fprintf('Reverse Read File %s\n',fq2);
@@ -83,11 +105,17 @@ function ProcessSamples(xls)
         fprintf('Output Directory  %s\n',out);
         fprintf('Template Length   %d\n',template_length);
         fprintf('Prefix            %s\n',prefix);
+        fprintf('Control           %s\n',control);
+        fprintf('Normalization     %s\n',normalization_factor);
+        for j=1:numel(cols)
+            fprintf('%s              %s\n',cols{j},t.(cols{j}){k});
+        end
         fprintf('\n');
         % Make Fastqmaps for input read files
         fastqmap(fq1); fastqmap(fq2); fastqmap(index);
         % Do PreProcessing
-        preprocess(fq1,fq2,index,out,'template_length',template_length,'prefix',prefix);
+        preprocess(fq1,fq2,index,out,'template_length',template_length,'prefix',prefix,op_args{:});
+        
         % Do Characterization
         % check for normalization_factor as expression or as string
         if ~contains(normalization_factor,'[')
