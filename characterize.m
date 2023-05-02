@@ -222,9 +222,9 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
         bMMSet = logical(size(P));
         bUnSet = logical(size(P));
         % parallel execution
-        %parfor k=1:max(size(P))
+        parfor k=1:max(size(P))
         % serial execution
-        for k=1:max(size(P))
+        % for k=1:max(size(P))
             P_k = strrep(P{k},'-','');
             n_k = numel(P_k);
             if n_k==0
