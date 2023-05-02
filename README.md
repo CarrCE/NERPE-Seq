@@ -22,4 +22,13 @@ Version 1.6 Updated seqspace_cube.m to use rendering for non-pixelated output.
 
 Version 1.7-1.9 Updated figures to auto-close to facilitate running many samples.
 
-Version 2.0 Illumina sequencing read length was restricting ability to identify products at 13 bases or longer. The result was that many fix2 and fix3 sequences were truncated in the Illumina reads. To adjust for this, this updated ProcessSamples allows additional columns to be added to the input excel file, e.g. columns "fix2" and "fix3" to define shorter fix2 and fix3 sequences. In this way, longer products can be identified up to 18 bases long.
+Version 2.0 Illumina sequencing read length was restricting ability to identify products at 13 bases or longer. The result was that many fix2 and fix3 sequences were truncated in the Illumina reads. To adjust for this, this updated ProcessSamples allows additional columns to be added to the input excel file, e.g. columns "fix2" and "fix3" to define shorter fix2 and fix3 sequences. In this way, longer products can be identified up to 18 bases long when using the following:
+
+fix2 = 'AGATCGGAAGAGCACAC'
+fix3 = 'GATCGTCGGACTGTAGA'
+
+instead of the defaults:
+
+fix2 = 'AGATCGGAAGAGCACACGTCTGA'
+fix3 = 'GATCGTCGGACTGTAGAACTCTG'
+
