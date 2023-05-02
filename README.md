@@ -1,9 +1,13 @@
 # NERPE-Seq
 Non-Enzymatic RNA Primer Extension (NERPE) Deep Sequencing
 
-MATLAB code for planned submission of the manuscript:
+Citing NERPE-Seq: Please use:
 
 Daniel Duzdevich*, Christopher E. Carr* and Jack W. Szostak. Deep sequencing of nonenzymatic RNA primer extension. Nucleic Acids Research, gkaa400, https://doi.org/10.1093/nar/gkaa400, 19 May 2020. Preprint: bioRxiv 10.1101/2020.02.18.955120 *Joint authors. Code: https://github.com/CarrCE/NERPE-Seq 
+
+Additional follow-on work has been published as:
+
+Daniel Duzdevich, Christopher E Carr, Dian Ding, Stephanie J Zhang, Travis S Walton, Jack W Szostak, Competition between bridged dinucleotides and activated mononucleotides determines the error frequency of nonenzymatic RNA primer extension, Nucleic Acids Research, Volume 49, Issue 7, 19 April 2021, Pages 3681–3691, https://doi.org/10.1093/nar/gkab173
 
 ## Release notes
 Version 1.0 Initial Release
