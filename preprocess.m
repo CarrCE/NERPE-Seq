@@ -179,8 +179,8 @@ function [summary,options] = preprocess(fq1,fq2,index,out,varargin)
             'SequencesMatch',nansum([block_results.bSequencesMatch]),...
             'Discard',nansum([block_results.bDiscard]),...
             'Keep',nansum([block_results.bSequencesMatch]),...
-            'Incorporation',nansum([block_results.bIncorporation]),...
-            'IncorporationHistogram',histcounts([block_results.N_incorporations],incorporation_bin_edges));
+            'ProductNumber',nansum([block_results.bIncorporation]),...
+            'ProductLengthHistogram',histcounts([block_results.N_incorporations],incorporation_bin_edges));
             % Save the block results using a helper function to avoid transparency issues inside a parfor loop
             % https://www.mathworks.com/matlabcentral/answers/135285-how-do-i-use-save-with-a-parfor-loop-using-parallel-computing-toolbox
             save_block_results(fn_block_mat,block_summary,block_results);
@@ -243,8 +243,8 @@ function [summary,options] = preprocess(fq1,fq2,index,out,varargin)
                 summary.SequencesMatch = 0;
                 summary.Discard = 0;
                 summary.Keep = 0;
-                summary.Incorporation = 0;
-                summary.IncorporationHistogram = zeros(size(incorporation_bin_edges)-[0 1]);
+                summary.ProductNumber = 0;
+                summary.ProductLengthHistogram = zeros(size(incorporation_bin_edges)-[0 1]);
             end
 
             summary.HeadersMatch = summary.HeadersMatch + block_summary.HeadersMatch;
@@ -268,8 +268,8 @@ function [summary,options] = preprocess(fq1,fq2,index,out,varargin)
             summary.SequencesMatch = summary.SequencesMatch + block_summary.SequencesMatch;
             summary.Discard = summary.Discard + block_summary.Discard;
             summary.Keep = summary.Keep + block_summary.Keep;
-            summary.Incorporation = summary.Incorporation + block_summary.Incorporation;
-            summary.IncorporationHistogram = summary.IncorporationHistogram + block_summary.IncorporationHistogram;
+            summary.ProductNumber = summary.ProductNumber + block_summary.ProductNumber;
+            summary.ProductLengthHistogram = summary.ProductLengthHistogram + block_summary.ProductLengthHistogram;
         end
 
         % Save summary of all blocks
@@ -338,9 +338,9 @@ function [summary,options] = preprocess(fq1,fq2,index,out,varargin)
         fprintf(fid_log,'Read 1/Read 2 Sequences Match:\t%d\n',summary.SequencesMatch);
         fprintf(fid_log,'Read Pair Discarded:\t%d\n',summary.Discard);
         fprintf(fid_log,'Read Pair Retained:\t%d\n',summary.Keep);
-        fprintf(fid_log,'Read Pairs with >=1 Incorporations:\t%d\n',summary.Incorporation);
-        fprintf(fid_log,'Incorporation Histogram (0-n):\t[');
-        inc_hist_tmp = sprintf('%d ',summary.IncorporationHistogram);
+        fprintf(fid_log,'Read Pairs with >=1 Incorporations:\t%d\n',summary.ProductNumber);
+        fprintf(fid_log,'Product Length Histogram (0-n):\t[');
+        inc_hist_tmp = sprintf('%d ',summary.ProductLengthHistogram);
         fprintf(fid_log,'%s]\n',inc_hist_tmp(1:end-1));
         fclose(fid_log);
     else
