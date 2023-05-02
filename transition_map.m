@@ -78,6 +78,7 @@ function transition_map(P,T,outfolder,varargin)
     fn = [options.filenamebase '_template'];
     print(fullfile(outfolder,[fn '.' options.figformat{1}]),options.figformat{2});
     savefig(fullfile(outfolder,[fn '.fig']));
+    close(gcf);
 
     % Labels for product
     ytl = {'-' 'A' 'C' 'G' 'U'};
@@ -100,6 +101,7 @@ function transition_map(P,T,outfolder,varargin)
     fn = [options.filenamebase '_product'];
     print(fullfile(outfolder,[fn '.' options.figformat{1}]),options.figformat{2});
     savefig(fullfile(outfolder,[fn '.fig']));
+    close(gcf);
 
     % Reoriented version
     % Without nulls
@@ -119,7 +121,8 @@ function transition_map(P,T,outfolder,varargin)
     fn = [options.filenamebase '_product_no_nulls'];
     print(fullfile(outfolder,[fn '.' options.figformat{1}]),options.figformat{2});
     savefig(fullfile(outfolder,[fn '.fig']));
-
+    close(gcf);
+    
     % If appropriate, log to file
     if ~isnan(fid)
         % Have valid file handle
