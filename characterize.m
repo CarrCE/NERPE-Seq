@@ -143,7 +143,7 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
         % complementary, mismatch, unextended--and is meant to be akin to 
         % what we would learn by looking at a gel.
         
-        % This was previously computed as summary.IncorporationHistogram
+        % This was previously computed as summary.ProductLengthHistogram
         % but we're doing it again in case we are dealing with filtered
         % fasta file.
         
@@ -151,19 +151,19 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
         incorporation_bin_edges = [0:1:(preprocessing_options.template_length+2)]-0.5;
         
         % Initialize
-        summary.Incorporation = 0;
-        summary.IncorporationHistogram = zeros(size(incorporation_bin_edges)-[0 1]);
-        summary.IncorporationHistogram_Relative = zeros(size(incorporation_bin_edges)-[0 1]);
+        summary.ProductNumber = 0;
+        summary.ProductLengthHistogram = zeros(size(incorporation_bin_edges)-[0 1]);
+        summary.ProductLengthHistogram_Relative = zeros(size(incorporation_bin_edges)-[0 1]);
         
         % Calculate
         p_len = cellfun(@numel,strrep(P,'-',''));
-        summary.Incorporation = sum(p_len>0);
-        summary.IncorporationHistogram = histcounts(p_len,incorporation_bin_edges);
+        summary.ProductNumber = sum(p_len>0);
+        summary.ProductLengthHistogram = histcounts(p_len,incorporation_bin_edges);
         
         % C.1.2 Relative-to-total unextended/extension events
-        summary.IncorporationHistogram_Relative = ...
-            summary.IncorporationHistogram ./ ...
-            sum(summary.IncorporationHistogram);
+        summary.ProductLengthHistogram_Relative = ...
+            summary.ProductLengthHistogram ./ ...
+            sum(summary.ProductLengthHistogram);
         
         %% C.2 Template Composition 
         
@@ -530,7 +530,7 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
         summary.ProductMismatchSetTerminalMismatchCountsRelativeToAllMismatches = pTerminal./pMM;
         summary.ProductMismatchSetMismatchCountsPerProductHistogram = histcounts(nMM,bin_edges);
         % Normalize to number of bases that have k or more incorporations
-        tmp = flip(cumsum(flip(summary.IncorporationHistogram(2:end))));
+        tmp = flip(cumsum(flip(summary.ProductLengthHistogram(2:end))));
         summary.ProductMismatchSetMismatchCountsRelativeToAllIncorporations = pMM./tmp;
         
         % C.6.3 MisMatch Set. What is the position-dependent distribution 
@@ -691,11 +691,11 @@ function [summary,options,preprocessing_options] = characterize(out,varargin)
                
         fprintf(fid_log,'Characterization Results:\n');
 
-        fprintf(fid_log,'Read Pairs with >=1 Incorporations:\t%d\n',summary.Incorporation);
-        logmatrix(fid_log,summary.IncorporationHistogram,'Incorporation Histogram (0-n)',{'Position' 'Read Pairs'},0:n_cols,'%d');
+        fprintf(fid_log,'Read Pairs with >=1 Incorporations:\t%d\n',summary.ProductNumber);
+        logmatrix(fid_log,summary.ProductLengthHistogram,'Product Length Histogram (0-n)',{'Position' 'Read Pairs'},0:n_cols,'%d');
         
-        fprintf(fid_log,'Fraction of Read Pairs with >=1 Incorporations:\t%0.5f\n',summary.Incorporation./numel(P));
-        logmatrix(fid_log,summary.IncorporationHistogram_Relative,'Incorporation Histogram, Relative Frequency',{'Position' 'Ratio'},0:n_cols,'%0.5g');
+        fprintf(fid_log,'Fraction of Read Pairs with >=1 Incorporations:\t%0.5f\n',summary.ProductNumber./numel(P));
+        logmatrix(fid_log,summary.ProductLengthHistogram_Relative,'Product Length Histogram, Relative Frequency',{'Position' 'Ratio'},0:n_cols,'%0.5g');
         
         logmatrix(fid_log,summary.TemplateCounts,'Template Base Counts',{'Position' 'A' 'C' 'G' 'U'},1:n_cols,'%d');
         logmatrix(fid_log,summary.TemplateFrequencies,'Template Frequencies',{'Position' 'A' 'C' 'G' 'U'},1:n_cols,'%0.5g');
