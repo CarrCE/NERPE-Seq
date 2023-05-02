@@ -1,7 +1,9 @@
 # NERPE-Seq
 Non-Enzymatic RNA Primer Extension (NERPE) Deep Sequencing
 
-Citing NERPE-Seq: Please use:
+## Citing NERPE-Seq 
+
+Please cite as:
 
 Daniel Duzdevich*, Christopher E. Carr* and Jack W. Szostak. Deep sequencing of nonenzymatic RNA primer extension. Nucleic Acids Research, gkaa400, https://doi.org/10.1093/nar/gkaa400, 19 May 2020. Preprint: bioRxiv 10.1101/2020.02.18.955120 *Joint authors. Code: https://github.com/CarrCE/NERPE-Seq 
 
