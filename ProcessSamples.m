@@ -91,7 +91,11 @@ function ProcessSamples(xls)
         out = t.('out'){k};
         template_length = t.('template_length')(k);
         prefix = t.('prefix'){k};
-        control = t.('control'){k};
+        if iscell(t.('control')(k))
+            control = t.('control'){k};
+        else
+            control = ''; % Handle blank control entry resulting in NaN during import
+        end
         normalization_factor = t.('normalization_factor'){k};
         
         % Remaining optional parameters are assumed to apply to preprocessing
