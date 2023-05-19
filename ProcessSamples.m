@@ -76,7 +76,7 @@ function ProcessSamples(xls)
     % ensure all required values are assigned
     for r=1:numel(required)
         % Check for required field
-        assert(sum(strcmpi(cols,required{r})),sprintf('Missing required input ''%s'' not found. See function description.',required{r}));
+        assert(logical(sum(strcmpi(cols,required{r}))),sprintf('Missing required input ''%s'' not found. See function description.',required{r}));
         % If found, remove from optional argument list
         cols(strcmpi(cols,required{r}))=[];
     end
