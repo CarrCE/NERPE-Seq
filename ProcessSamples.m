@@ -72,7 +72,7 @@ function ProcessSamples(xls)
     cols = t.Properties.VariableNames;
     
     % required fields list
-    required = {'fq1' 'fq2' 'index' 'out' 'template_length' 'prefix' 'control' 'normalization_factor'}
+    required = {'fq1' 'fq2' 'index' 'out' 'template_length' 'prefix' 'control' 'normalization_factor'};
     % ensure all required values are assigned
     for r=1:numel(required)
         % Check for required field
