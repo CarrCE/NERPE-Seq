@@ -143,7 +143,7 @@ function [summary,options] = preprocess(fq1,fq2,index,out,varargin)
             for r=1:N_reads_in_block
                 H1 = hdr1_b{r}; R1 = seq1_b{r}; Q1 = qual1_b{r};
                 H2 = hdr2_b{r}; R2 = seq2_b{r}; Q2 = qual2_b{r};
-                H3 = hdr2_b{r}; R3 = seq2_b{r}; Q3 = qual2_b{r};
+                H3 = hdr3_b{r}; R3 = seq3_b{r}; Q3 = qual3_b{r};
                 % Process this read
                 block_results(r) = preprocess_read(H1,R1,Q1,H2,R2,Q2,H3,R3,Q3,processing_options{:});
             end
