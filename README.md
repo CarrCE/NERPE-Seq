@@ -38,3 +38,4 @@ instead of the defaults:
 fix2 = 'AGATCGGAAGAGCACACGTCTGA'
 fix3 = 'GATCGTCGGACTGTAGAACTCTG'
 
+Version 2.1 Fixed a typo that was preventing proper filtering of index quality. This should improve analysis results by reducing the frequency of "index hopping" as previously the analysis of index quality was erroneously based on read 2 quality.
